@@ -29,7 +29,7 @@ class buyButton(pygame.sprite.Sprite):
         self.image = pygame.image.load("buy.png").convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.x = 25
-        self.rect.y = 605
+        self.rect.y = 600
 
     def clicked(self):
         global money
@@ -59,7 +59,7 @@ class sellButton(pygame.sprite.Sprite):
         self.image = pygame.image.load("sell.png").convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.x = 775-self.rect.width
-        self.rect.y = 605
+        self.rect.y = 600
 
     def clicked(self):
         global money
@@ -116,16 +116,16 @@ class the_value_line(pygame.sprite.Sprite):
         global lowerVal
         global upperVal
         self.tick += 1
-        if self.tick == 50:
+        if self.tick == 100:
             lowerVal = random.choice((-1,-2,-3,-4))
             upperVal = random.choice((1,2,3,4,5))
             self.tick = 0
 def the_text():
     font = pygame.font.SysFont("freeserif", 20)
-    textSurface = font.render(f"Dollals: {dollals}", 1, pygame.Color(0,0,0))
+    textSurface = font.render("Dollals: "+str(dollals), 1, pygame.Color(0,0,0))
     r = textSurface.get_rect()
     screen.blit(textSurface,(width/2-r.width/2, 665))
-    textSurface = font.render(f"Money: ${money}", 1, pygame.Color(0,0,0))
+    textSurface = font.render("Money: $"+str(money), 1, pygame.Color(0,0,0))
     r = textSurface.get_rect()
     screen.blit(textSurface,(width/2-r.width/2, 695))
     pygame.display.update()
