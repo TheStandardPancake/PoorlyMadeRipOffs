@@ -2,15 +2,17 @@ import pygame
 import random
 import math
 import sys
+from time import sleep
 from pygame.locals import *
 
 width = 800
-height = 720
+height = 700
 value_of_dollal = 350
 dollals = 10
 money = 0
 lowerVal = random.choice((-1,-2,-3,-4))
-upperVal = random.choice((1,2,3,4,5))
+upperVal = random.choice((1,2,3,4,5,6))
+day = 1
 
 pygame.init()
 
@@ -23,6 +25,22 @@ def update():
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
+
+def dayScreen():
+    R = random.randrange(0,256)
+    G = random.randrange(0,256)
+    B = random.randrange(0,256)
+    screen.fill(pygame.Color(R,G,B))
+    font = pygame.font.SysFont("freeserif", 67)
+    textSurface = font.render("Day "+str(day), 1, pygame.Color(0,0,0))
+    r = textSurface.get_rect()
+    screen.blit(textSurface,(width/2-r.width/2, height/2-r.height/2))
+    pygame.display.update()
+    update()
+    sleep(2)
+    game()
+
+
 
 class buyButton(pygame.sprite.Sprite):
     def __init__(self):
@@ -106,11 +124,11 @@ class the_value_line(pygame.sprite.Sprite):
         if self.rect.x == 800-self.rect.width:
             screen.fill(pygame.Color(255,255,255))
             screen.blit(grid, (0,0))
-            self.rect.x = 0
-            self.rect.y = 300
-            value_of_dollal = 500
-            lowerVal = random.choice((-1,-2,-3,-4))
-            upperVal = random.choice((1,2,3,4,5))
+            global playing
+            playing = False
+            global day
+            day += 1
+            dayScreen()
 
     def randomTick(self):
         global lowerVal
@@ -118,16 +136,17 @@ class the_value_line(pygame.sprite.Sprite):
         self.tick += 1
         if self.tick == 100:
             lowerVal = random.choice((-1,-2,-3,-4))
-            upperVal = random.choice((1,2,3,4,5))
+            upperVal = random.choice((1,2,3,4,5,6))
             self.tick = 0
+
 def the_text():
     font = pygame.font.SysFont("freeserif", 20)
     textSurface = font.render("Dollals: "+str(dollals), 1, pygame.Color(0,0,0))
     r = textSurface.get_rect()
-    screen.blit(textSurface,(width/2-r.width/2, 665))
+    screen.blit(textSurface,(width/2-r.width/2, 625))
     textSurface = font.render("Money: $"+str(money), 1, pygame.Color(0,0,0))
     r = textSurface.get_rect()
-    screen.blit(textSurface,(width/2-r.width/2, 695))
+    screen.blit(textSurface,(width/2-r.width/2, 655))
     pygame.display.update()
 
 def white_box():
@@ -135,22 +154,50 @@ def white_box():
     b = box.get_rect()
     screen.blit(box, (width/2-b.width/2,600))
 
+def title():
+    font = pygame.font.SysFont("freeserif", 67)
+    textSurface = font.render("Dollal Simulator Simulator", 1, pygame.Color(0,0,0))
+    r = textSurface.get_rect()
+    screen.blit(textSurface,(width/2-r.width/2, height/2-r.height/2))
+    pygame.display.update()
+
+def TitleScreen():
+    R = random.randrange(0,256)
+    G = random.randrange(0,256)
+    B = random.randrange(0,256)
+    screen.fill(pygame.Color(R,G,B))
+
+    title()
+    update()
+    sleep(2)
+    dayScreen()
+
+
 buy = buyButton()
 sell = sellButton()
 dot = the_value_line()
 
-screen.fill(pygame.Color(255,255,255))
-screen.blit(grid, (0,0))
+def game():
+    screen.fill(pygame.Color(255,255,255))
+    screen.blit(grid, (0,0))
+    global playing
+    playing = True
+    dot.rect.x = 0
+    dot.rect.y = 300
+    value_of_dollal = 500
 
-while True:
-    screen.blit(buy.image, buy.rect)
-    screen.blit(sell.image, sell.rect)
-    buy.clicked()
-    sell.clicked()
-    screen.blit(dot.image, dot.rect)
-    dot.move()
-    dot.randomTick()
-    white_box()
-    the_text()
-    update()
-    pygame.display.update()
+    while playing:
+        screen.blit(buy.image, buy.rect)
+        screen.blit(sell.image, sell.rect)
+        buy.clicked()
+        sell.clicked()
+        screen.blit(dot.image, dot.rect)
+        dot.move()
+        dot.randomTick()
+        white_box()
+        the_text()
+        update()
+        pygame.display.update()
+
+if __name__ == "__main__":
+    TitleScreen()
