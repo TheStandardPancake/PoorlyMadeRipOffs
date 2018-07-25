@@ -39,6 +39,8 @@ def dayScreen():
     pygame.display.update()
     update()
     sleep(2)
+    global value_of_dollal
+    value_of_dollal = 350
     game()
 
 
@@ -70,8 +72,6 @@ class buyButton(pygame.sprite.Sprite):
                 money = 0
             if dollals < 0:
                 dollals = 0
-            if dollals == 0 and money == 0:
-                exit()
 
 class sellButton(pygame.sprite.Sprite):
     def __init__(self):
@@ -100,8 +100,6 @@ class sellButton(pygame.sprite.Sprite):
                 money = 0
             if dollals < 0:
                 dollals = 0
-            if dollals == 0 and money == 0:
-                exit()
 
 class the_value_line(pygame.sprite.Sprite):
     def __init__(self):
@@ -185,7 +183,6 @@ def game():
     playing = True
     dot.rect.x = 0
     dot.rect.y = 300
-    value_of_dollal = 500
 
     while playing:
         screen.blit(buy.image, buy.rect)
@@ -199,6 +196,7 @@ def game():
         the_text()
         update()
         pygame.display.update()
+        print(value_of_dollal)
 
 if __name__ == "__main__":
     TitleScreen()
