@@ -1,3 +1,4 @@
+#This amazing re-creation of dollal simulator was programmed by Boyd Kirkman
 import pygame
 import random
 import math
